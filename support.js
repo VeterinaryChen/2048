@@ -47,3 +47,25 @@ function nospace(board){
     return true;
 }
 
+function canMoveLeft(board){
+    for(var i=0 ; i<4 ; i++){
+        for (var j=1 ; j<4 ; j++){
+            if(board[i][j]!=0){
+                if (board[i][j-1]==0 || board[i][j-1] == board[i][j]){
+                    return true;
+                }
+            }   
+        }
+    }
+    return false;
+}
+
+function noBlockHorizontal(row,col1,col2,board){
+    for (var j=col1+1 ; j<col2 ; j++){
+        if (board[row][j]!=0){
+            return false;
+        }
+    }
+    return true;
+}
+
