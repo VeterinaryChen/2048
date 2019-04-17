@@ -129,8 +129,6 @@ function canMoveUp(board){
     return false;
 }
 
-
-
 function noBlockHorizontal(row, col1, col2, board) {
     for (var j = col1 + 1; j < col2; j++) {
         if (board[row][j] != 0) {
@@ -145,6 +143,13 @@ function noBlockVertical(col, row1, row2, board) {
         if (board[i][col] != 0) {
             return false;
         }
+    }
+    return true;
+}
+
+function nomove(board){
+    if(canMoveDown() || canMoveLeft() || canMoveRight() || canMoveUp()){
+        return false;
     }
     return true;
 }

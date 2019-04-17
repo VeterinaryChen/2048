@@ -93,24 +93,28 @@ function generateOneNumber() {
 $(document).keydown(function (event) {
     switch (event.keyCode) {
         case 37: //left
-            if (moveLeft())
-                generateOneNumber();
-            isgameover();
+            if (moveLeft()) {
+                setTimeout("generateOneNumber()",210);
+                setTimeout("isgameover()",300);
+            }
             break;
         case 38: //up
-            if (moveUp())
-                generateOneNumber();
-            isgameover();
+            if (moveUp()) {
+                setTimeout("generateOneNumber()", 210);
+                setTimeout("isgameover()", 300);
+            }
             break;
         case 39: //right
-            if (moveRight())
-                generateOneNumber();
-            isgameover();
+            if (moveRight()) {
+                setTimeout("generateOneNumber()", 210);
+                setTimeout("isgameover()", 300);
+            }
             break;
         case 40: //down
-            if (moveDown())
-                generateOneNumber();
-            isgameover();
+            if (moveDown()) {
+                setTimeout("generateOneNumber()", 210);
+                setTimeout("isgameover()", 300);
+            }
             break;
         default:
             break;
@@ -187,7 +191,7 @@ function moveDown() {
                     if (board[k][i] == 0 && noBlockVertical(i, j, k, board)) {
                         //move
                         showMoveAnimation(i, j, k, j);
-                        board[k][i] = board[j][i];
+                        board[k][i] += board[j][i];
                         board[j][i] = 0;
                         continue;
                     } else if (board[k][i] == board[j][i] && noBlockVertical(i, j, k, board)) {
@@ -216,7 +220,7 @@ function moveUp() {
                     if (board[k][i] == 0 && noBlockVertical(i, j, k, board)) {
                         //move
                         showMoveAnimation(i, j, k, j);
-                        board[k][i] = board[j][i];
+                        board[k][i] += board[j][i];
                         board[j][i] = 0;
                         continue;
                     } else if (board[k][i] == board[j][i] && noBlockVertical(i, j, k, board)) {
@@ -236,5 +240,10 @@ function moveUp() {
 }
 
 function isgameover() {
+    if (nospace(board) && nomove(board))
+        gameover();
+}
 
+function gameover() {
+    alert("gameover!");
 }
