@@ -17,11 +17,11 @@ function newgame() {
 
 // suitable for Mobile devices
 function prepareForMobile(){
-    if (documentWidth > 500){
+    if (documentWidth > 600){
         gridContainerWidth = 500;
         cellSpace = 20;
         cellSideLength = 100;
-        
+
     }
 
     $('#grid-container').css('width',gridContainerWidth - 2*cellSpace);
