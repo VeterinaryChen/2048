@@ -56,9 +56,7 @@ function updateBoardView() {
                 theNumberCell.css('color', getNumberColor(board[i][j]));
                 theNumberCell.text(board[i][j]);
             }
-
         }
-
     }
 }
 
@@ -94,8 +92,8 @@ $(document).keydown(function (event) {
     switch (event.keyCode) {
         case 37: //left
             if (moveLeft()) {
-                setTimeout("generateOneNumber()",210);
-                setTimeout("isgameover()",300);
+                setTimeout("generateOneNumber()", 210);
+                setTimeout("isgameover()", 300);
             }
             break;
         case 38: //up
@@ -141,6 +139,8 @@ function moveLeft() {
                         showMoveAnimation(i, j, i, k);
                         board[i][k] += board[i][j];
                         board[i][j] = 0;
+                        score += board[i][k];
+                        updateScore(score);
                         continue;
                     }
                 }
@@ -170,6 +170,8 @@ function moveRight() {
                         showMoveAnimation(i, j, i, k);
                         board[i][k] += board[i][j];
                         board[i][j] = 0;
+                        score += board[i][k];
+                        updateScore(score);
                         continue;
                     }
                 }
@@ -191,7 +193,7 @@ function moveDown() {
                     if (board[k][i] == 0 && noBlockVertical(i, j, k, board)) {
                         //move
                         showMoveAnimation(i, j, k, j);
-                        board[k][i] += board[j][i];
+                        board[k][i] = board[j][i];
                         board[j][i] = 0;
                         continue;
                     } else if (board[k][i] == board[j][i] && noBlockVertical(i, j, k, board)) {
@@ -199,6 +201,8 @@ function moveDown() {
                         showMoveAnimation(i, j, k, j);
                         board[k][i] += board[j][i];
                         board[j][i] = 0;
+                        score += board[k][i];
+                        updateScore(score);
                         continue;
                     }
                 }
@@ -220,7 +224,7 @@ function moveUp() {
                     if (board[k][i] == 0 && noBlockVertical(i, j, k, board)) {
                         //move
                         showMoveAnimation(i, j, k, j);
-                        board[k][i] += board[j][i];
+                        board[k][i] = board[j][i];
                         board[j][i] = 0;
                         continue;
                     } else if (board[k][i] == board[j][i] && noBlockVertical(i, j, k, board)) {
@@ -228,6 +232,8 @@ function moveUp() {
                         showMoveAnimation(i, j, k, j);
                         board[k][i] += board[j][i];
                         board[j][i] = 0;
+                        score += board[k][i];
+                        updateScore(score);
                         continue;
                     }
                 }
