@@ -3,6 +3,7 @@ var hasConflicted = new Array();
 var score = 0;
 
 $(document).ready(function () {
+    prepareForMobile();
     newgame();
 });
 
@@ -12,6 +13,25 @@ function newgame() {
     //Generate two number in random if the grid is blank
     generateOneNumber();
     generateOneNumber();
+}
+
+// suitable for Mobile devices
+function prepareForMobile(){
+    if (documentWidth > 500){
+        gridContainerWidth = 500;
+        cellSpace = 20;
+        cellSideLength = 100;
+        
+    }
+
+    $('#grid-container').css('width',gridContainerWidth - 2*cellSpace);
+    $('#grid-container').css('height', gridContainerWidth - 2 * cellSpace);
+    $('#grid-container').css('padding', cellSpace);
+    $('#grid-container').css('border-radius', gridContainerWidth * 0.02);
+
+    $('.grid-cell').css('width', cellSideLength);
+    $('.grid-cell').css('height', cellSideLength);
+    $('.grid-cell').css('border-radius', cellSideLength*0.02);
 }
 
 function init() {
@@ -49,11 +69,11 @@ function updateBoardView() {
             if (board[i][j] == 0) {
                 theNumberCell.css('width', '0px');
                 theNumberCell.css('height', '0px');
-                theNumberCell.css('top', getPosTop(i, j) + 50);
-                theNumberCell.css('left', getPosLeft(i, j) + 50);
+                theNumberCell.css('top', getPosTop(i, j) + cellSideLength/2 );
+                theNumberCell.css('left', getPosLeft(i, j) + cellSideLength/2 );
             } else {
-                theNumberCell.css('width', '100px');
-                theNumberCell.css('height', '100px');
+                theNumberCell.css('width', cellSideLength);
+                theNumberCell.css('height', cellSideLength);
                 theNumberCell.css('top', getPosTop(i, j));
                 theNumberCell.css('left', getPosLeft(i, j));
                 theNumberCell.css('background-color', getNumberBackgroundColor(board[i][j]));
@@ -63,8 +83,11 @@ function updateBoardView() {
             hasConflicted[i][j] = false;
         }
     }
+    $('.number-cell').css('line-height', cellSideLength + 'px');
+    $('.number-cell').css('font-size', 0.6 * cellSideLength + 'px');
 }
 
+var time = 0;
 function generateOneNumber() {
 
     if (nospace(board)) {
@@ -74,14 +97,24 @@ function generateOneNumber() {
     //Random Position
     var randomPositionX = parseInt(Math.floor(Math.random() * 4));
     var randomPositionY = parseInt(Math.floor(Math.random() * 4));
-    while (true) {
+    while (time<50) {
         if (board[randomPositionX][randomPositionY] == 0) {
             break;
         }
         randomPositionX = parseInt(Math.floor(Math.random() * 4));
         randomPositionY = parseInt(Math.floor(Math.random() * 4));
+        time++;
     }
-
+    if (time == 50){
+        for(var i=0 ; i<4 ; i++){
+            for (var j=0 ; j<4 ;j++){
+                if (board[i][j]==0){
+                    randomPositionX = i;
+                    randomPositionY = j;
+                }
+            }
+        }
+    }
     //Random Number
     var randomNumber = Math.random() < 0.5 ? 2 : 4;
 
