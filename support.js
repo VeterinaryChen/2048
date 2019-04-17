@@ -117,8 +117,8 @@ function canMoveDown(board) {
 
 //can Move Down
 function canMoveUp(board){
-    for (var j = 1; j < 4; j++) {
-        for (var i = 0; i < 3; i++) {
+    for (var i = 1; i < 4; j++) {
+        for (var j = 1; j < 4; i++) {
             if (board[j][i] != 0) {
                 if (board[j - 1][i] == 0 || board[j - 1][i] == board[j][i]) {
                     return true;
@@ -148,7 +148,7 @@ function noBlockVertical(col, row1, row2, board) {
 }
 
 function nomove(board){
-    if(canMoveDown() || canMoveLeft() || canMoveRight() || canMoveUp()){
+    if (canMoveDown(board) || canMoveLeft(board) || canMoveRight(board) || canMoveUp(board)) {
         return false;
     }
     return true;

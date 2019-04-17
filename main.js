@@ -1,4 +1,5 @@
 var board = new Array();
+var hasConflicted = new Array();
 var score = 0;
 
 $(document).ready(function () {
@@ -24,12 +25,15 @@ function init() {
 
     for (var i = 0; i < 4; i++) {
         board[i] = new Array();
+        hasConflicted[i] = new Array();
         for (var j = 0; j < 4; j++) {
             board[i][j] = 0;
+            hasConflicted[i][j] = false;
         }
     }
 
     updateBoardView();
+    score = 0;
 }
 
 function updateBoardView() {
@@ -56,6 +60,7 @@ function updateBoardView() {
                 theNumberCell.css('color', getNumberColor(board[i][j]));
                 theNumberCell.text(board[i][j]);
             }
+            hasConflicted[i][j] = false;
         }
     }
 }
@@ -134,13 +139,15 @@ function moveLeft() {
                         board[i][k] = board[i][j];
                         board[i][j] = 0;
                         continue;
-                    } else if (board[i][k] == board[i][j] && noBlockHorizontal(i, k, j, board)) {
+                    } else if (board[i][k] == board[i][j] && noBlockHorizontal(i, k, j, board) && !hasConflicted[i][k]) {
                         //move and add
                         showMoveAnimation(i, j, i, k);
                         board[i][k] += board[i][j];
                         board[i][j] = 0;
                         score += board[i][k];
                         updateScore(score);
+
+                        hasConflicted[k][i] = true;
                         continue;
                     }
                 }
@@ -165,13 +172,15 @@ function moveRight() {
                         board[i][k] = board[i][j];
                         board[i][j] = 0;
                         continue;
-                    } else if (board[i][k] == board[i][j] && noBlockHorizontal(i, j, k, board)) {
+                    } else if (board[i][k] == board[i][j] && noBlockHorizontal(i, j, k, board) && !hasConflicted[i][k]) {
                         //move and add
                         showMoveAnimation(i, j, i, k);
                         board[i][k] += board[i][j];
                         board[i][j] = 0;
                         score += board[i][k];
                         updateScore(score);
+
+                        hasConflicted[k][i] = true;
                         continue;
                     }
                 }
@@ -196,13 +205,15 @@ function moveDown() {
                         board[k][i] = board[j][i];
                         board[j][i] = 0;
                         continue;
-                    } else if (board[k][i] == board[j][i] && noBlockVertical(i, j, k, board)) {
+                    } else if (board[k][i] == board[j][i] && noBlockVertical(i, j, k, board) && !hasConflicted[k][i]) {
                         //move and add
                         showMoveAnimation(i, j, k, j);
                         board[k][i] += board[j][i];
                         board[j][i] = 0;
                         score += board[k][i];
                         updateScore(score);
+
+                        hasConflicted[k][i] = true;
                         continue;
                     }
                 }
@@ -220,20 +231,22 @@ function moveUp() {
     for (var i = 0; i < 4; i++) {
         for (var j = 1; j < 4; j++) {
             if (board[j][i] != 0) {
-                for (var k = j - 1; k < 4; k++) {
+                for (var k = 0; k < j; k++) {
                     if (board[k][i] == 0 && noBlockVertical(i, j, k, board)) {
                         //move
                         showMoveAnimation(i, j, k, j);
                         board[k][i] = board[j][i];
                         board[j][i] = 0;
                         continue;
-                    } else if (board[k][i] == board[j][i] && noBlockVertical(i, j, k, board)) {
+                    } else if (board[k][i] == board[j][i] && noBlockVertical(i, j, k, board) && !hasConflicted[k][i]) {
                         //move and add
                         showMoveAnimation(i, j, k, j);
                         board[k][i] += board[j][i];
                         board[j][i] = 0;
                         score += board[k][i];
                         updateScore(score);
+
+                        hasConflicted[k][i] = true;
                         continue;
                     }
                 }
@@ -252,4 +265,5 @@ function isgameover() {
 
 function gameover() {
     alert("gameover!");
+    newgame();
 }
